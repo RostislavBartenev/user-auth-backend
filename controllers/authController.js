@@ -23,12 +23,16 @@ const login = asyncHandler(async (req, res) => {
         return res.status(401).json({ message: 'Unauthorized' })
     }
 
+    const userInfo = {
+      email: foundUser.email,
+      roles: foundUser.roles,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+    }
+
     const accessToken = jwt.sign(
         {
-            "UserInfo": {
-                "email": foundUser.email,
-                "roles": foundUser.roles,
-            }
+            "UserInfo": userInfo
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '15m' },
@@ -74,12 +78,16 @@ const refresh = (req, res) => {
                 return res.status(401).json({ message: 'Unauthorized' })
             }
 
+          const userInfo = {
+            email: foundUser.email,
+            roles: foundUser.roles,
+            firstName: foundUser.firstName,
+            lastName: foundUser.lastName,
+          }
+
             const accessToken = jwt.sign(
                 {
-                    "UserInfo": {
-                        "email": foundUser.email,
-                        "roles": foundUser.roles
-                    }
+                    "UserInfo": userInfo
                 },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '15m' }
